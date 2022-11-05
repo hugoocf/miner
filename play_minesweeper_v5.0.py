@@ -27,10 +27,11 @@ def main():
     path = '.\\chromedriver.exe' if 'chromedriver.exe' in os.listdir() else ChromeDriverManager().install()
     options = webdriver.ChromeOptions()
     ############################## VPN ############################
-    VPN = True
+    VPN = False
     if VPN:
-        PROXY_STR = "8.219.97.248:80" #https://sslproxies.org/
+        PROXY_STR = "117.74.65.223:20000" #https://sslproxies.org/
         options.add_argument('--proxy-server=%s' % PROXY_STR)
+    
     
     ########################### INCOGNITO ########################
     INCOGNITO = False
@@ -38,9 +39,9 @@ def main():
         options.add_argument('--incognito')
         
     ############################## LOGIN ##########################
-    LOGIN = False
+    LOGIN = True
     credentials = {
-        'username' : 'hugo coto',
+        'username' : "HugoCoto's bot",
         'password' : '10031003'    
     }
     ######################### SET DRIVER #############################
@@ -49,10 +50,10 @@ def main():
     
     if LOGIN:
         driver.get('https://minesweeper.online')
-        WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//*[@id="header"]/nav/div/div/button')))
+        WebDriverWait(driver, 40).until(EC.presence_of_element_located((By.XPATH, '//*[@id="header"]/nav/div/div/button')))
         driver.find_element(By.XPATH, '//*[@id="header"]/nav/div/div/button').click()
-        sleep(1)
-        driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/ul/li[17]/a').click()
+        sleep(2)
+        driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/ul/li[19]/a').click()
         sleep(1)
         driver.find_element(By.XPATH, '//*[@id="sign_in_username"]').send_keys(credentials['username'])
         sleep(0.1)
@@ -83,6 +84,8 @@ def main():
                     case _:
                         board[index] = int(k[-1])   
                         board_closed_cells[index] = 0 
+                        
+        
     
     def decide():
         global last_action
@@ -326,7 +329,8 @@ def main():
 
     while True:#main loop
         ################### GAME OPTIONS ###########################
-        automode = 0
+        #a.m. = mode to play in loop
+        automode = 1
         if automode:
            gamemode = str(automode) 
         else:gamemode = input('[>] SELECT GAME MODE (1,2,3): ')#1- easy, 2-intermediate, 3-expert, 4 custom
@@ -346,12 +350,12 @@ def main():
         MINE = False
         global last_action 
         last_action = 0
-        FLAGS = True
+        FLAGS = False
         os.system('cls' if sys.platform == 'win32' else 'clear')
         ####################### GAME LOOP #########################        
         set_board()
         if FLAGS:perform_thread = Thread(target=perform,daemon=True);perform_thread.start()
-        
+        elements[len(elements)//2].click()
         while not MINE and any(board==9):
             decide()
             get_board()
